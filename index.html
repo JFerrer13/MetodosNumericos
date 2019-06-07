@@ -16,26 +16,57 @@
 </head>
 
 <body>
-  <div class="container">
-      <h1 class="text-center">Bienvenido</h1>
-      <p class="text-center">Este es un proyecto en blanco en el que utilizamos:</p>
-      <div class="row text-center" id="app">
-        <div :class="'col-sm-' + (Math.floor(12/Frameworks.length))" v-for="(item, index) in Frameworks">
-          <div class="card">
-            <div class="card-body">
-                <h1><i :class="item.icono" :style="'background-color:' + item.color"></i></h1>
-                <h3 v-text="item.nombre"></h3>
+  <div class="container-fluid" id="app">
+    <section class="header">
+      <div class="row">
+          <nav class="nav justify-content-center">
+              <a class="nav-link active" href="#" >Bisección</a>
+              <a class="nav-link disabled" href="#">Regula Falsi</a>
+              <a class="nav-link disabled" href="#">Newton-Raphson</a>
+              <a class="nav-link disabled" href="#">Secante</a>
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Aplicar Todos</a>
+          </nav>
+          <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center">Bienvenida Ing. Illescas</h1>
+                    <p class="text-center">Este es el software guatemalteco más novedoso para realizar el análises de ecuaciones lineales por métodos númericos <br>
+                      <span class="text-muted"> Me arevo a pensar eso debido a que no conozco a nadie que este haciendo otro tan comercial como este :v</span></p>
+                    <div class="row justify-content-center">
+                      <div class="col-10">
+                          <input type="search" class="form-control ds-input" id="search-input" v-model="Ecuacion" placeholder="" aria-label="analizar" autocomplete="off" data-docs-version="4.3" spellcheck="false">
+                      </div>
+                    </div>
+                    <div class="row justify-content-center">
+                      <div class="col-2 justify-content-center">
+                          <button type="button" class="btn btn-dark go" style="width: 100%;opacity: 0.9; margin: 10px"  onclick="document.querySelector('section.header').className = 'header fixed'">¡Vamos!</button>
+                      </div>
+                    </div>
+                </div>
             </div>
           </div>
+      </div>
+    </section>
+    <section class="analizador">
+      <div class="row justify-content-center"></div>
+      <div class="row justify-content-center">
+        <div class="col-10" style="margin-bottom:50px; margin-top:50px">
+            <h1 class="text-center">Analizador</h1>
+            <p class="text-center">Toma en cuenta las opciones seleccionadas arriba. Tambien te pediremos algunas más aca abajo, creo... </p>
         </div>
       </div>
+      <eclineales :ecuacion="Ecuacion" ></eclineales>
+      <div class="row justify-content-center" style="padding:30px"></div>
+    </section>
   </div>
 
 
 
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
   <script src="script/Vue.js"></script>
   <script src="script/jquery.js"></script>
+  <script src="componentes/ECLineales.js"></script>
   <script src="script/scripts.js"></script>
 </body>
 </html>

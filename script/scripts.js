@@ -17,7 +17,8 @@ var app = new Vue({
         color: '#563d7c',
         nombre:'Bootstrap',
       },
-    ]
+    ],
+    Ecuacion: "x^4 + 2x^3 -x -1 = 0",
   },
   methods:{
   }
