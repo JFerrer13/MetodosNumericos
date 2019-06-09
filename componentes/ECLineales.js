@@ -4,7 +4,7 @@ Vue.component('eclineales', {
     <div class="row" name="eclineales">
         <div class="col-10 offset-1">
             <div class="row justify-content-center">
-                <div class="col-6 params text-center">
+                <div class="col-6 col-md-12 params text-centerparams text-center">
                     <strong class="text-right">[</strong>
                     <input class="form-control" type="number" v-model="a" />
                     <strong class="text-center">,</strong>
