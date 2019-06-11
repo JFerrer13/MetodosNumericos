@@ -29,11 +29,11 @@ var app = new Vue({
         disabled: false,
       },{
         Nombre:'Newton-Raphson',
-        Active: true,
+        Active: false,
         disabled: false,
       },{
         Nombre:'Secante',
-        Active: false,
+        Active: true,
         disabled: false,
       },{
         Nombre:'Aplicar Todos',
@@ -41,8 +41,8 @@ var app = new Vue({
         disabled: false,
       }
     ],
-    Ecuacion: "x^3 + 4x^2 -10 = 0",
-    menuActivo: "Newton-Raphson",
+    Ecuacion: "x^3 + 2x^2 + 10x -20 = 0",
+    menuActivo: "Secante",
     analizar: false,
   },
   methods:{

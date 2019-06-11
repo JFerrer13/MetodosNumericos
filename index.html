@@ -51,8 +51,10 @@
             <p class="text-center">Toma en cuenta las opciones seleccionadas arriba. Tambien te pediremos algunas más aca abajo, creo... </p>
         </div>
       </div>
-      <biseccion :ecuacion="Ecuacion" v-if="menuActivo == 'Bisección'"></biseccion>
-      <newton :ecuacion="Ecuacion" v-if="menuActivo == 'Newton-Raphson'"></newton>
+      <biseccion  :ecuacion="Ecuacion" v-if="menuActivo == 'Bisección'"></biseccion>
+      <newton     :ecuacion="Ecuacion" v-if="menuActivo == 'Newton-Raphson'"></newton>
+      <secante    :ecuacion="Ecuacion" v-if="menuActivo == 'Secante'"></secante>
+      <regulafalsi    :ecuacion="Ecuacion" v-if="menuActivo == 'Regula Falsi'"></regulafalsi>
       <div class="row justify-content-center" style="padding:30px"></div>
     </section>
   </div>
@@ -61,11 +63,14 @@
 
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.com/libraries/mathjs"></script>
+  <script type="text/javascript" src= "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="script/jquery.js"></script>
   <script src="componentes/biseccion.js"></script>
   <script src="componentes/NewtonRaphson.js"></script>
+  <script src="componentes/secante.js"></script>
+  <script src="componentes/regulafalsi.js"></script>
   <script src="script/scripts.js"></script>
 </body>
 </html>
