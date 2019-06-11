@@ -21,7 +21,7 @@ var app = new Vue({
     Menu: [
       {
         Nombre:'Bisección',
-        Active: true,
+        Active: false,
         disabled: false,
       },{
         Nombre:'Regula Falsi',
@@ -29,7 +29,7 @@ var app = new Vue({
         disabled: false,
       },{
         Nombre:'Newton-Raphson',
-        Active: false,
+        Active: true,
         disabled: false,
       },{
         Nombre:'Secante',
@@ -41,8 +41,8 @@ var app = new Vue({
         disabled: false,
       }
     ],
-    Ecuacion: "x^4 + 2x^3 -x -1 = 0",
-    menuActivo: "Bisección",
+    Ecuacion: "x^3 + 4x^2 -10 = 0",
+    menuActivo: "Newton-Raphson",
     analizar: false,
   },
   methods:{
@@ -50,11 +50,11 @@ var app = new Vue({
       for (let i = 0; i < this.Menu.length; i++) {
         const element = this.Menu[i];
 
-        if(element.Nombre == o){
-          menuActivo = element.Nombre;
-          element.Active = true;
+        if(this.Menu[i].Nombre == o){
+          this.menuActivo = this.Menu[i].Nombre;
+          this.Menu[i].Active = true;
         }else{
-          element.Active = false;
+          this.Menu[i].Active = false;
         }
         
       }
@@ -72,10 +72,14 @@ var app = new Vue({
   
       return respuesta;
     },
-    analizadorLexico: function () {
+    analizadorLexico: function (eqOpcional) {
       var terminos = new Array();
       var aux = this.Ecuacion.split("=")[0].trim().split(" ");
       let variable = "x"
+
+      if(eqOpcional){
+        aux = eqOpcional.split("=")[0].trim().split(" ");
+      }
 
       for (let i = 0; i < aux.length; i++) {
           const element = aux[i];

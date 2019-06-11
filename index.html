@@ -47,11 +47,12 @@
       <div class="row justify-content-center"></div>
       <div class="row justify-content-center">
         <div class="col-10" style="margin-bottom:50px; margin-top:50px">
-            <h1 class="text-center">Analizador</h1>
+            <h1 class="text-center">Analizador <strong v-text="menuActivo"></strong></h1>
             <p class="text-center">Toma en cuenta las opciones seleccionadas arriba. Tambien te pediremos algunas más aca abajo, creo... </p>
         </div>
       </div>
       <biseccion :ecuacion="Ecuacion" v-if="menuActivo == 'Bisección'"></biseccion>
+      <newton :ecuacion="Ecuacion" v-if="menuActivo == 'Newton-Raphson'"></newton>
       <div class="row justify-content-center" style="padding:30px"></div>
     </section>
   </div>
@@ -59,10 +60,12 @@
 
 
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.com/libraries/mathjs"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="script/jquery.js"></script>
   <script src="componentes/biseccion.js"></script>
+  <script src="componentes/NewtonRaphson.js"></script>
   <script src="script/scripts.js"></script>
 </body>
 </html>
