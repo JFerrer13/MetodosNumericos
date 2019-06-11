@@ -1,7 +1,7 @@
-Vue.component('eclineales', {
+Vue.component('biseccion', {
     template: //html
     `
-    <div class="row" name="eclineales">
+    <div class="row" name="biseccion">
         <div class="col-10 offset-1">
             <div class="row justify-content-center">
                 <div class="col-6 col-md-12 params text-centerparams text-center">
@@ -111,9 +111,9 @@ Vue.component('eclineales', {
             }
 
             nuevoTermino.xm = (nuevoTermino.xi + nuevoTermino.xd)/2;
-            nuevoTermino.fxi = this.calcularValoresPolinomial(nuevoTermino.xi);
-            nuevoTermino.fxd = this.calcularValoresPolinomial(nuevoTermino.xd);
-            nuevoTermino.fxm = this.calcularValoresPolinomial(nuevoTermino.xm);
+            nuevoTermino.fxi = app.calcularValoresPolinomial(nuevoTermino.xi, this.terminos);
+            nuevoTermino.fxd = app.calcularValoresPolinomial(nuevoTermino.xd, this.terminos);
+            nuevoTermino.fxm = app.calcularValoresPolinomial(nuevoTermino.xm, this.terminos);
             nuevoTermino.e = Math.abs(termino.xm - nuevoTermino.xm);
             nuevoTermino.aceptado = nuevoTermino.e >= Number(this.e) ||!nuevoTermino.e ? true : false;
 
@@ -124,80 +124,17 @@ Vue.component('eclineales', {
                 this.calcularTerminoPolinomial(nuevoTermino);
             }
         },
-        analizadorLexico: function () {
-            this.terminos = new Array();
-            var aux = this.ecuacion.split("=")[0].trim().split(" ");
-            let variable = "x"
-
-            for (let i = 0; i < aux.length; i++) {
-                const element = aux[i];
-                
-                let termino = {
-                    coeficiente: 0,
-                    exp: 0,
-                }
-
-                if(element.indexOf(variable) != -1){
-                    let partes = element.split(variable);
-                    //Coeficiente
-                    if(partes[0] == ""){
-                        termino.coeficiente =  1;
-                    }else if(partes[0] == "-"){
-                        termino.coeficiente =  -1;
-                    }else if(partes[0].indexOf("/") != -1){
-                        termino.coeficiente = Number(partes[0].split("/")[0]) / Number(partes[0].split("/")[1]);
-                    }else{
-                        termino.coeficiente = Number(partes[0]);
-                    }
-                    //Exponente
-                    partes[1] = partes[1].replace("^", "");
-                    if(partes[1] == ""){
-                        termino.exp =  1;
-                    }else if(partes[1].indexOf("/") != -1){
-                        termino.exp = Number(partes[1].split("/")[0]) / Number(partes[1].split("/")[1]);
-                    }else{
-                        termino.exp = Number(partes[1]);
-                    }
-
-                    this.terminos.push(termino);
-                }else{
-                    try {
-                        termino.exp = 0;
-                        termino.coeficiente = Number(element);
-
-                        if(!isNaN(termino.coeficiente)){
-                            this.terminos.push(termino);
-                        }
-                    } catch (e) {
-                        
-                    }
-                }
-            }
-        },
-        calcularValoresPolinomial: function (x){
-            let respuesta = 0;
-
-            for (let i = 0; i < this.terminos.length; i++) {
-                const element = this.terminos[i];
-
-                let x1 = Math.pow(x, element.exp);
-
-                respuesta += x1 * element.coeficiente;
-            }
-
-            return respuesta;
-        },
         calcular: function (){
-            this.analizadorLexico();
+            this.terminos = app.analizadorLexico();
 
             if(!isNaN(Number(this.a)) && !isNaN(Number(this.b)) && !isNaN(Number(this.e)) && Number(this.e) > 0 ){
                 this.tbValores = [{
                     xi: Number(this.a),
                     xd: Number(this.b),
                     xm: 0,
-                    fxd: this.calcularValoresPolinomial(Number(this.a)),
-                    fxi: this.calcularValoresPolinomial(Number(this.b)),
-                    fxm: this.calcularValoresPolinomial(0),
+                    fxd: app.calcularValoresPolinomial(Number(this.a), this.terminos),
+                    fxi: app.calcularValoresPolinomial(Number(this.b), this.terminos),
+                    fxm: app.calcularValoresPolinomial(0, this.terminos),
                     e: 0,
                     aceptado: true,
                     comentarios: "Valores iniciales",
@@ -236,7 +173,7 @@ Vue.component('eclineales', {
                 fmx.push(this.truncarValor(this.tbValores[i].fxm));
                 fmd.push(this.truncarValor(this.tbValores[i].fxd));
                 fmi.push(this.truncarValor(this.tbValores[i].fxi));
-                ejey.push(this.truncarValor(this.calcularValoresPolinomial(i * (maxX - minX)/this.tbValores.length)));
+                ejey.push(this.truncarValor(app.calcularValoresPolinomial(i * (maxX - minX)/this.tbValores.length, this.terminos)));
                 ejex.push(this.truncarValor(minX + (i * (maxX - minX)/this.tbValores.length)));
                 
             }
@@ -291,7 +228,7 @@ Vue.component('eclineales', {
     },
     mounted: function (params) {
         this.calcularValores();
-        this.analizadorLexico();
+        this.terminos = app.analizadorLexico();
         
         this.tipo= "polinomial";  
 
