@@ -29,11 +29,11 @@ var app = new Vue({
         disabled: false,
       },{
         Nombre:'Newton-Raphson',
-        Active: false,
+        Active: true,
         disabled: false,
       },{
         Nombre:'Secante',
-        Active: true,
+        Active: false,
         disabled: false,
       },{
         Nombre:'Aplicar Todos',
@@ -41,8 +41,8 @@ var app = new Vue({
         disabled: false,
       }
     ],
-    Ecuacion: "x^3 + 2x^2 + 10x -20 = 0",
-    menuActivo: "Secante",
+    Ecuacion: "e^-x + x = 0",
+    menuActivo: "Newton-Raphson",
     analizar: false,
   },
   methods:{
@@ -84,50 +84,66 @@ var app = new Vue({
       for (let i = 0; i < aux.length; i++) {
           const element = aux[i];
           
-          let termino = {
-              coeficiente: 0,
-              exp: 0,
-          }
+          let aux2 = this.crearTermino(element, variable);
 
-          if(element.indexOf(variable) != -1){
-              let partes = element.split(variable);
-              //Coeficiente
-              if(partes[0] == ""){
-                  termino.coeficiente =  1;
-              }else if(partes[0] == "-"){
-                  termino.coeficiente =  -1;
-              }else if(partes[0].indexOf("/") != -1){
-                  termino.coeficiente = Number(partes[0].split("/")[0]) / Number(partes[0].split("/")[1]);
-              }else{
-                  termino.coeficiente = Number(partes[0]);
-              }
-              //Exponente
-              partes[1] = partes[1].replace("^", "");
-              if(partes[1] == ""){
-                  termino.exp =  1;
-              }else if(partes[1].indexOf("/") != -1){
-                  termino.exp = Number(partes[1].split("/")[0]) / Number(partes[1].split("/")[1]);
-              }else{
-                  termino.exp = Number(partes[1]);
-              }
+          if(aux2){
+            terminos.push(aux2);
 
-              terminos.push(termino);
-          }else{
-              try {
-                  termino.exp = 0;
-                  termino.coeficiente = Number(element);
-
-                  if(!isNaN(termino.coeficiente)){
-                      terminos.push(termino);
-                  }
-              } catch (e) {
-                  
-              }
-          }
+          } 
       }
 
       return terminos;
     },
+    crearTermino: function (element, variable){
+      let termino = {
+          coeficiente: 0,
+          exp: 0,
+          funcion: null,
+          termino: null,
+      }
+
+      if(element.indexOf(variable) != -1){
+          let partes = element.split(variable);
+          //Coeficiente
+          if(partes[0] == ""){
+              termino.coeficiente =  1;
+          }else if(partes[0] == "-"){
+              termino.coeficiente =  -1;
+          }else if(partes[0].indexOf("/") != -1){
+              termino.coeficiente = Number(partes[0].split("/")[0]) / Number(partes[0].split("/")[1]);
+          }else if(partes[0].indexOf("e^") != -1){
+              termino.funcion = function (numero){
+                return Math.exp(numero);
+              }
+              termino.termino = this.crearTermino(element.substr(element.indexOf("e^") + 2,element.length), variable) ;
+
+          }else{
+              termino.coeficiente = Number(partes[0]);
+          }
+          //Exponente
+          partes[1] = partes[1].replace("^", "");
+          if(partes[1] == ""){
+              termino.exp =  1;
+          }else if(partes[1].indexOf("/") != -1){
+              termino.exp = Number(partes[1].split("/")[0]) / Number(partes[1].split("/")[1]);
+          }else{
+              termino.exp = Number(partes[1]);
+          }
+
+          return termino
+      }else{
+          try {
+              termino.exp = 0;
+              termino.coeficiente = Number(element);
+
+              if(!isNaN(termino.coeficiente)){
+                  return(termino);
+              }
+          } catch (e) {
+              
+          }
+      }
+    }
   },
   
 })
